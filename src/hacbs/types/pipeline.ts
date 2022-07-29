@@ -12,7 +12,7 @@ export type PipelineKind = K8sModelCommon & {
 export type PipelineRunKind = K8sModelCommon &
   K8sResourceCommon & {
     apiGroup: 'tekton.dev';
-    version: 'v1alpha1';
+    version: 'v1alpha1' | 'v1beta1';
     kind: 'PipelineRun';
     plural: 'pipeline runs';
     namespaced: true;

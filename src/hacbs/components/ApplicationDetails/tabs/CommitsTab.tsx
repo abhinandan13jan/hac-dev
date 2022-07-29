@@ -9,13 +9,16 @@ import {
   EmptyStateSecondaryActions,
 } from '@patternfly/react-core';
 import { OutlinedFileImageIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-file-image-icon';
+import { pipelineRunstoCommits } from '../../../utils/commits-utils';
+import { pipelineWithCommits } from '../../Commits/pipeline-with-commits-mock';
 
 type CommitTabProps = {
   applicationName: string;
 };
 
 const CommitsTab: React.FC<CommitTabProps> = ({ applicationName }) => {
-  return (
+  const commits = pipelineRunstoCommits(pipelineWithCommits);
+  return !commits || commits.length === 0 ? (
     <EmptyState>
       <EmptyStateIcon icon={OutlinedFileImageIcon} />
       <Title headingLevel="h4" size="lg">
@@ -39,6 +42,14 @@ const CommitsTab: React.FC<CommitTabProps> = ({ applicationName }) => {
         </Button>
       </EmptyStateSecondaryActions>
     </EmptyState>
+  ) : (
+    <>
+      {commits.map((commit) => (
+        <div key={commit.sha}>
+          <b>{commit.sha}</b> {commit.branch} {commit.pipelineRuns.length}
+        </div>
+      ))}
+    </>
   );
 };
 
